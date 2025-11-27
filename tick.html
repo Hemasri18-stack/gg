@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookMyShowcase - Single Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #d4edda; /* Light green */
+            color: #2d5016; /* Dark olive green */
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: #f8f9fa; /* Light grey-white for contrast */
+            padding: 1.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            color: #2d5016; /* Dark olive green */
+            font-weight: 600;
+        }
+
+        nav {
+            margin-top: 1rem;
+        }
+
+        nav a {
+            color: #2d5016; /* Dark olive green */
+            text-decoration: none;
+            margin: 0 1.5rem;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        nav a:hover, nav a.active {
+            background: #c3e6cb; /* Light green */
+            color: #2d5016; /* Dark olive green */
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sections */
+        section {
+            display: none;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        /* Home Page Styles */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: #f8f9fa; /* Light grey-white */
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #2d5016; /* Dark olive green */
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #4a5568; /* Neutral grey */
+        }
+
+        .btn {
+            display: inline-block;
+            background: #2d5016; /* Dark olive green */
+            color: #ffffff; /* White */
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(45, 80, 22, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(45, 80, 22, 0.4);
+        }
+
+        .gallery {
+            text-align: center;
+        }
+
+        .gallery h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #2d5016; /* Dark olive green */
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Equal columns */
+            grid-template-rows: repeat(2, auto); /* Equal rows */
+            gap: 2rem;
+        }
+
+        .movie {
+            background: #f8f9fa; /* Light grey-white */
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .movie:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .movie img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .movie h3 {
+            margin: 0;
+            color: #2d5016; /* Dark olive green */
+            font-weight: 600;
+        }
+
+        /* Booking Page Styles */
+        .booking-form {
+            background: #f8f9fa; /* Light grey-white */
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .booking-form h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #2d5016; /* Dark olive green */
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #4a5568; /* Neutral grey */
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #c3e6cb; /* Light green */
+            border-radius: 10px;
+            background: #ffffff; /* White */
+            color: #333333; /* Dark grey */
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #2d5016; /* Dark olive green */
+            box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
+        }
+
+        .total-display {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .total-display p {
+            font-size: 1.3rem;
+            color: #2d5016; /* Dark olive green */
+            font-weight: 600;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .spinner {
+            border: 4px solid #d4edda; /* Light green */
+            border-top: 4px solid #2d5016; /* Dark olive green */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Confirmation Page Styles */
+        .confirmation {
+            text-align: center;
+            background: #f8f9fa; /* Light grey-white */
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .confirmation h2 {
+            margin-bottom: 2rem;
+            color: #2d5016; /* Dark olive green */
+            font-weight: 600;
+        }
+
+        .details-card {
+            background: #d4edda; /* Light green */
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .details-card p {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+            color: #4a5568; /* Neutral grey */
+        }
+
+        .details-card p strong {
+            color: #2d5016; /* Dark olive green */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>🎥 BookMyShowcase</h1>
+        </div>
+        <nav>
+            <a id="homeLink" class="active">Home</a>
+            <a id="bookingLink">Book My Tickets</a>
+        </nav>
+    </header>
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="active fade-in">
+            <div class="hero">
+                <h2>Discover the Magic of Cinema</h2>
+                <p>Book tickets for the latest blockbusters and unforgettable events. Immerse yourself in our curated showcase of cinematic wonders.</p>
+                <button class="btn" onclick="showSection('booking')">Start Your Journey</button>
+            </div>
+            <div class="gallery">
+                <h2>Featured Films</h2>
+                <div class="movie-grid">
+                    <div class="movie">
+                        <img src="https://via.placeholder.com/300x450/d4edda/333333?text=Avengers+Endgame" alt="Avengers Endgame Poster">
+                        <h3>Avengers: Endgame</h3>
+                    </div>
+                    <div class="movie">
+                        <img src="https://via.placeholder.com/300x450/d4edda/333333?text=Inception" alt="Inception Poster">
+                        <h3>Inception</h3>
+                    </div>
+                    <div class="movie">
+                        <img src="https://via.placeholder.com/300x450/d4edda/333333?text=The+Dark+Knight" alt="The Dark Knight Poster">
+                        <h3>The Dark Knight</h3>
+                    </div>
+                    <div class="movie">
+                        <img src="https://via.placeholder.com/300x450/d4edda/333333?text=Interstellar" alt="Interstellar Poster">
+                        <h3>Interstellar</h3>
+                    </div>
+                    <div class="movie">
+                        <img src="https://via.placeholder.com/300x450/d4edda/333333?text=Joker" alt="Joker Poster">
+                        <h3>Joker</h3>
+                    </div>
+                    <div class="movie">
+                        <img src="https://via.placeholder.com/300x450/d4edda/333333?text=Parasite" alt="Parasite Poster">
+                        <h3>Parasite</h3>
+                    </div>
+                    <div class="movie">
+                        <img src="https://via.placeholder.com/300x450/d4edda/333333?text=The+Lion+King" alt="The Lion King Poster">
+                        <h3>The Lion King</h3>
+                    </div>
+                    <div class="movie">
+                        <img src="https://via.placeholder.com/300x450/d4edda/333333?text=Frozen+II" alt="Frozen II Poster">
+                        <h3>Frozen II</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Booking Section -->
+        <section id="booking" class="fade-in">
+            <div class="booking-form">
+                <h2>Reserve Your Seats</h2>
+                <form id="ticketForm">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="event">Select Your Film</label>
+                        <select id="event" name="event" required>
+                            <option value="">Choose a movie</option>
+                            <option value="Avengers: Endgame">Avengers: Endgame</option>
+                            <option value="Inception">Inception</option>
+                            <option value="The Dark Knight">The Dark Knight</option>
+                            <option value="Interstellar">Interstellar</option>
+                            <option value="Joker">Joker</option>
+                            <option value="Parasite">Parasite</option>
+                            <option value="The Lion King">The Lion King</option>
+                            <option value="Frozen II">Frozen II</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tickets">Number of Tickets</label>
+                        <input type="number" id="tickets" name="tickets" min="1" value="1" required>
+                    </div>
+                    
+                    <div class="total-display">
+                        <p>Total Cost: <span id="totalCost">₹300</span></p>
+                    </div>
+                    
+                    <button type="submit" class="btn" id="submitBtn">Book Now</button>
+                    <div id="loading" class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Processing your booking...</p>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Confirmation Section -->
+        <section id="confirmation" class="fade-in">
+            <div class="confirmation">
+                <h2>🎉 Booking Confirmed!</h2>
+                <div id="bookingDetails" class="details-card">
+                    <!-- Details will be populated by JavaScript -->
+                </div>
+                <button class="btn" onclick="showSection('home')">Explore More Films</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Navigation
+        const homeLink = document.getElementById('homeLink');
+        const bookingLink = document.getElementById('bookingLink');
+        const sections = document.querySelectorAll('section');
+
+        function showSection(sectionId) {
+            sections.forEach(section => section.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+            if (sectionId === 'home') homeLink.classList.add('active');
+            else if (sectionId === 'booking') bookingLink.classList.add('active');
+        }
+
+        homeLink.addEventListener('click', () => showSection('home'));
+        bookingLink.addEventListener('click', () => showSection('booking'));
+
+        // Dynamic cost calculation in INR
+        const ticketPrice = 300; // ₹300 per ticket
+        const ticketsInput = document.getElementById('tickets');
+        const totalCostSpan = document.getElementById('totalCost');
+
+        function updateTotalCost() {
+            const numTickets = parseInt(ticketsInput.value) || 0;
+            const total = numTickets * ticketPrice;
+            totalCostSpan.textContent = `₹${total}`;
+        }
+
+        ticketsInput.addEventListener('input', updateTotalCost);
+
+        // Form submission
+        const form = document.getElementById('ticketForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const loading = document.getElementById('loading');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            submitBtn.style.display = 'none';
+            loading.style.display = 'block';
+            
+            setTimeout(() => {
+                const name = document.getElementById('name').value;
+                const eventType = document.getElementById('event').value;
+                const tickets = document.getElementById('tickets').value;
+                const total = totalCostSpan.textContent.replace('₹', '');
+                
+                document.getElementById('bookingDetails').innerHTML = `
+                    <p><strong>Name:</strong> ${name}</p>
+                    <p><strong>Film:</strong> ${eventType}</p>
+                    <p><strong>Tickets:</strong> ${tickets}</p>
+                    <p><strong>Total Paid:</strong> ₹${total}</p>
+                    <p>Thank you for choosing BookMyShowcase! Your tickets are on the way to your email. Enjoy the show!</p>
+                `;
+                
+                showSection('confirmation');
+                submitBtn.style.display = 'block';
+                loading.style.display = 'none';
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
