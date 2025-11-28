@@ -400,18 +400,23 @@
         homeLink.addEventListener('click', () => showSection('home'));
         bookingLink.addEventListener('click', () => showSection('booking'));
 
-        // Dynamic cost calculation in INR
-        const ticketPrice = 300; // ₹300 per ticket
-        const ticketsInput = document.getElementById('tickets');
-        const totalCostSpan = document.getElementById('totalCost');
+       // Dynamic cost calculation in INR
+const ticketPrice = 300; // ₹300 per ticket
+const ticketsInput = document.getElementById('tickets');
+const totalCostSpan = document.getElementById('totalCost');
 
-        function updateTotalCost() {
-            const numTickets = parseInt(ticketsInput.value) || 0;
-            const total = numTickets * ticketPrice;
-            totalCostSpan.textContent = `₹${total}`;
-        }
+function updateTotalCost() {
+    let numTickets = parseInt(ticketsInput.value);
 
-        ticketsInput.addEventListener('input', updateTotalCost);
+    // Prevent negative or zero ticket input
+    if (numTickets < 1 || isNaN(numTickets)) {
+        numTickets = 1;
+        ticketsInput.value = 1; 
+    }
+
+    const total = numTickets * ticketPrice;
+    totalCostSpan.textContent = `₹${total}`;
+}
 
         // Form submission
         const form = document.getElementById('ticketForm');
